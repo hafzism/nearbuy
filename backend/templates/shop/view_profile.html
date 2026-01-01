@@ -1,0 +1,50 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+<table table align="center" class="table table-hover">
+    <tr>
+        <td colspan="2">Licence</td>
+    </tr>
+    <tr>
+        <td><img src="{{ data.id_proof }}" height="30%" width="30%"></td>
+    </tr>
+    <tr>
+        <td>SHOP NAME</td>
+        <td>{{ data.shop_name }}</td>
+    </tr>
+    <tr>
+        <td>OWNER NAME</td>
+        <td>{{ data.owner_name }}</td>
+    </tr>
+    <tr>
+        <td>PHONE</td>
+        <td>{{ data.contact_no  }}</td>
+    </tr>
+    <tr>
+        <td>EMAIL</td>
+        <td>{{ data.email }}</td>
+    </tr>
+    <tr>
+        <td>LOCATION LINK</td>
+        <td>{{ data.location }}</td>
+    </tr>
+    <tr>
+        <td>PLACE</td>
+        <td>{{ data.place }}</td>
+    </tr>
+    <tr>
+        <td>DISTRICT</td>
+        <td>{{ data.district }}</td>
+    </tr>
+    <tr>
+        <td>STATE</td>
+        <td>{{ data.state }}</td>
+    </tr>
+    <tr>
+        <td>PIN</td>
+        <td>{{ data.pin }}</td>
+    </tr>
+    <tr>
+        <td colspan="2"><a href="/product_finder/shop_edit_profile/#id" class="btn btn-primary">EDIT</a></td>
+    </tr>
+</table>
+{% endblock %}

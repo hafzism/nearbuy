@@ -1,0 +1,33 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Generic
+*.log
+tmp/
+temp/
+
+# Editor
+.idea/
+.vscode/
+
+# Python / Django
+venv/
+env/
+*.pyc
+__pycache__/
+db.sqlite3
+*.mo
+*.pot
+
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+android/.gradle
+ios/.symlinks
+ios/Pods/
+
+# Secrets
+.env

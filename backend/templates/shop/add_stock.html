@@ -1,0 +1,68 @@
+{#{% extends 'shop/home_index.html' %}#}
+{#{% block body %}#}
+{#    <form action="/product_finder/shop_add_stock_post/" method="post">#}
+{#        {% csrf_token %}#}
+{#        <table class="table table-hover">#}
+{#            <tr>#}
+{#                <th>Choose Product</th>#}
+{#                <td>#}
+{#                    <select name="pn">#}
+{#                        {% for i in data %}#}
+{#                            <option value="{{ i.id }}">{{ i.Product_name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+{#                </td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Quantity</th>#}
+{#                <td><input type="text" name="pq" required pattern="[0-9]"></td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <td><input type="submit" value="Update" class="btn btn-success"></td>#}
+{#            </tr>#}
+{#        </table>#}
+{#    </form>#}
+{##}
+{#{% endblock %}#}
+
+
+{% extends 'shop/home_index.html' %}
+{% block body %}
+    <form action="/product_finder/shop_add_stock_post/" method="post" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <table class="table table-hover">
+            <tr>
+                <th>Choose Product</th>
+                <td>
+                    <select name="pn" class="form-control">
+                        {% for i in data %}
+                            <option value="{{ i.id }}">{{ i.Product_name }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>
+                    <input type="text" name="pq" id="quantity" required class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Update" class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function validateForm() {
+            var quantity = document.getElementById("quantity").value;
+
+            // Check if quantity is a number and is positive
+            if (isNaN(quantity) || quantity <= 0) {
+                alert("Please enter a valid positive number for quantity.");
+                return false;  // Prevent form submission
+            }
+            return true;  // Allow form submission
+        }
+    </script>
+{% endblock %}

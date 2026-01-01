@@ -1,0 +1,32 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+
+    <form method="post" action="/product_finder/search_damaged_product/#id">
+        {% csrf_token %}
+        <table class="pull-left">
+            <tr>
+                <th><input type="text" name="pn" class="form-control" placeholder="product" required></th>
+                <td><input type="submit" value="search" class="btn btn-primary"></td>
+            </tr>
+        </table>
+    <br>
+        <table class="table table-hover">
+            <tr>
+                <th>Slno</th>
+                <th>Date</th>
+                <th>About</th>
+                <th>Customer Name</th>
+                <th>Product Name</th>
+            </tr>
+            {% for i in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.date }}</td>
+                    <td>{{ i.about }}</td>
+                    <td>{{ i.CUSTOMER.c_name }}</td>
+                    <td>{{ i.PRODUCT.Product_name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+{% endblock %}

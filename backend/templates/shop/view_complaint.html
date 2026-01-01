@@ -1,0 +1,41 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+
+    <form method="post" action="/product_finder/search_complaint/#id">
+        {% csrf_token %}
+        <table class="pull-left">
+            <tr>
+                <th>From date
+                    <input type="date" name="sdate" required class="form-control">
+                    To date
+                    <input type="date" name="edate" required class="form-control">
+                    <input type="submit" value="search" class="btn btn-primary">
+                </th>
+            </tr>
+        </table>
+    </form>
+
+    <table class="table table-hover">
+        <tr>
+            <th> Slno</th>
+            <th> User name</th>
+            <th> Complaint</th>
+            <th> Date</th>
+            <th> Reply</th>
+        </tr>
+        {% for i in data %}
+            <tr>
+                <td> {{ forloop.counter }} </td>
+                <td> {{ i.CUSTOMER.c_name }} </td>
+                <td> {{ i.complaint }} </td>
+                <td> {{ i.date }} </td>
+                <td> {% if i.status == 'pending' %}
+                    <a href="/product_finder/shop_send_reply/{{ i.id }}#id" class="btn btn-success"> Reply </a>
+                {% else %}
+                    {{ i.reply }}
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,71 @@
+{#{% extends 'admin/home_index.html' %}#}
+{#{% block body %}#}
+{##}
+{#    <form method="post" action="/product_finder/search_feed/">#}
+{#    {% csrf_token %}#}
+{#        <table class="table table-hover">#}
+{#            <tr>#}
+{#                <th>From date#}
+{#                    <input type="date" name="sdate" required>#}
+{#                    To date#}
+{#                    <input type="date" name="edate" required>#}
+{#                    <input type="submit" value="search" class="btn btn-primary">#}
+{#                </th>#}
+{#            </tr>#}
+{#        </table>#}
+{##}
+{##}
+{#    <div class="row">#}
+{#        {% for i in data %}#}
+{#            <div class="col-md-4">#}
+{#                <div class="card mb-4">#}
+{#                    <div class="card-body">#}
+{#                        <img src="{{ i.CUSTOMER.pic }}">#}
+{#                        <h5 class="card-title">{{ i.CUSTOMER.c_name }}</h5>#}
+{#                        <h6 class="card-subtitle mb-2 text-muted">{{ i.date }}</h6>#}
+{#                        <p class="card-text">{{ i.feedback }}</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#     </form>#}
+{##}
+{#{% endblock %}#}
+
+
+{% extends 'admin/home_index.html' %}
+{% block body %}
+
+<form method="post" action="/product_finder/search_feed/">
+    {% csrf_token %}
+    <table class="pull-left">
+        <tr>
+            <th>From date</th>
+            <td><input type="date" name="sdate" required class="form-control"></td>
+            <th>To date</th>
+                <td><input type="date" name="edate" required class="form-control"></td>
+                <td><input type="submit" value="Search" class="btn btn-primary"></td>
+        </tr>
+    </table>
+<br><br>
+    <div class="row">
+        {% for i in data %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <img src="{{ i.CUSTOMER.pic }}" alt="{{ i.CUSTOMER.c_name }}" class="img-fluid">
+                        <h5 class="card-title">{{ i.CUSTOMER.c_name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ i.date }}</h6>
+                        <p class="card-text">{{ i.feedback }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No data available for the selected date range.</p>
+        {% endfor %}
+    </div>
+</form>
+
+{% endblock %}
+

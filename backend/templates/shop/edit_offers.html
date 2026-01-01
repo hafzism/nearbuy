@@ -1,0 +1,34 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+    <form action="/product_finder/shop_edit_post/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="pull-left">
+            <input type="hidden" name="id" value="{{ data.id }}">
+            <tr>
+                <th>Offer details</th>
+                <th><textarea name="od" class="form-control">{{ data.offer_des }}</textarea></th>
+            </tr>
+            <tr>
+                <th>Starting date</th>
+                <td><input type="date" name="sd" value="{{ data.s_date|date:'Y-m-d' }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <th>End date</th>
+                <td><input type="date" name="ed" value="{{ data.e_date|date:'Y-m-d' }}" class="form-control"></td>
+            </tr>
+            <tr>
+            <th> Choose product</th>
+            <td>
+                <select name="pn" class="form-control">
+                    {% for i in data2 %}
+                        <option value="{{ i.id }}" {% if i.id == data.PRODUCT_id %}selected{% endif %}> {{ i.Product_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            </tr>
+            <tr>
+                <td><input type="submit" class="btn btn-success" value="Edit"></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

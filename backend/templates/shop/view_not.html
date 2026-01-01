@@ -1,0 +1,36 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+
+        <form method="post" action="/product_finder/search_notification/#id">
+        {% csrf_token %}
+        <table class="pull-left">
+            <tr>
+                <th>From date</th>
+                    <td><input type="date" name="sdate" required class="form-control"></td>
+                    <th>To date</th>
+                    <td><input type="date" name="edate" required class="form-control"></td>
+                   <td> <input type="submit" value="search" class="btn btn-primary"></td>
+            </tr>
+        </table>
+
+    </form>
+<br>
+    <table class="table table-hover">
+    <tr>
+        <th> Slno </th>
+        <th> Notification </th>
+        <th> Date </th>
+        <th></th>
+        <th></th>
+    </tr>
+        {% for i in data %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.notification }}</td>
+        <td> {{ i.date }} </td>
+        <td><a href="/product_finder/shop_edit_notification/{{ i.id }}#id" class="btn btn-success">Edit</a></td>
+        <td><a href="/product_finder/shop_delete_notification/{{ i.id }}#id" class="btn btn-danger" onclick="return confirm('Are you sure')">Delete</a></td>
+    </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

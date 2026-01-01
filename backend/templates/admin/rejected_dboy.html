@@ -1,0 +1,48 @@
+{% extends 'admin/home_index.html' %}
+{% block body %}
+
+    <form method="post" action="/product_finder/search_rej_dboy/#id">
+    {% csrf_token %}
+    <h4 style="text-align: center; font-family: 'Times New Roman', Times, serif; font-weight: bold; margin-top: 30px;">
+    Rejected Delivery Boys
+    </h4>
+    <br>
+    <table class="pull-left">
+        <tr>
+            <th><input type="text" name="ss" class="form-control" placeholder="Name" required></th>
+            <td><input type="submit" value="search" class="btn btn-primary"></td>
+        </tr>
+    </table><br>
+<table align="center" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Slno</th>
+            <th>Profile</th>
+            <th>Contact</th>
+            <th>Id proof </th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in data %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><img src="{{ i.pic }}" width="50px" height="50px"><br>
+                    {{ i.d_name }}<br>{{ i.dob }}</td>
+
+                <td>{{ i.number }}<br>{{ i.email }}</td>
+                <td><img src="{{ i.id_proof }}" height="90" width="90"> </td>
+                <td>{{ i.place }}<br>
+                {{ i.district }}<br>
+                {{ i.state }}<br>
+                {{ i.pin }}</td>
+            <td>
+{#                <td><a href="/product_finder/admin_approve_dboy/{{ i.LOGIN.id }}" class="btn btn-success">Accept</a></td>#}
+{#               <td><a href="/product_finder/admin_reject_dboy/{{ i.LOGIN.id }}" class="btn btn-danger">Reject</a></td>#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    </form>
+{% endblock %}

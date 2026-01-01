@@ -1,0 +1,146 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quick Register Form Responsive Widget Template :: w3layouts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="keywords"
+          content="Quick Register Form Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <link href="/static/web/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/web/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+          rel="stylesheet">
+</head>
+<body>
+<div class="signupform">
+    <div class="container">
+        <div class="agile_info">
+            <div class="w3_info">
+                <h2>Register Here</h2>
+                <form action="/product_finder/shop_reg_post/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="left margin">
+                        <label>Shop Name</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <input type="text" name="sn" required="">
+                        </div>
+                    </div>
+                    <div class="left">
+                        <label>Owner Name</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <input type="text" name="on" required="">
+                        </div>
+                    </div>
+                    <div class="left margin">
+                        <label>Email Address</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                            <input type="email" name="em" required>
+                        </div>
+                    </div>
+                    <div class="left">
+                        <label>Phone Number</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-phone" aria-hidden="true"></i></span>
+                            <input type="text" name="pno" required pattern="[9876]\d{9}"
+                                   title="please enter valid number">
+                        </div>
+                    </div>
+                    <div class="left margin">
+                        <label>Location Link</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-lock" aria-hidden="true"></i></span>
+                            <input type="text" name="loc" required>
+                        </div>
+                    </div>
+                    <div class="left">
+                        <label>Place</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-location-arrow" aria-hidden="true"></i></span>
+                            <input type="text" name="plc" required pattern="[A-Za-z]+" title="please enter valid place">
+                        </div>
+                    </div>
+                    <div class="left margin">
+                        <label>District</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-map-pin" aria-hidden="true"></i></span>
+                            <input type="text" name="ds" required pattern="[A-Za-z]+"
+                                   title="please enter valid district">
+                        </div>
+                    </div>
+                    <div class="left">
+                        <label>State</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-location-arrow" aria-hidden="true"></i></span>
+                            <input type="text" name="st" required required pattern="[A-Za-z]+"
+                                   title="please enter valid state">
+                        </div>
+                    </div>
+                    <div class="left margin">
+                        <label>Pin</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-map-pin" aria-hidden="true"></i></span>
+                            <input type="text" name="pn" required pattern="[0-9]{6}">
+                        </div>
+                    </div>
+
+                    <div class="left">
+                        <label>Licence</label>
+                        <div class="input-group">
+                            <input type="file" name="pr" required="" style="padding: 3.6%">
+                        </div>
+                    </div>
+                    <div class="left margin">
+                        <label>Password</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-lock" aria-hidden="true"></i></span>
+                            <input type="password" name="ps" required
+                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}"
+                                   title="Must contain at least one number, one uppercase letter, one lowercase letter, one special character, and be at least 8 characters long without spaces.">
+
+                        </div>
+                    </div>
+                    <div class="left">
+                        <label>Confirm Password</label>
+                        <div class="input-group">
+                            <span><i class="fa fa-lock" aria-hidden="true"></i></span>
+
+                            <input type="password" name="cps" required
+                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}"
+                                   title="Must contain at least one number, one uppercase letter, one lowercase letter, one special character, and be at least 8 characters long without spaces.">
+
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                    <input type="checkbox" value="remember-me"/> <h4> I agree to the terms & contidions </h4>
+                    <button class="btn btn-danger btn-block" type="submit">Register Now <i
+                            class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <div class="w3l_form">
+                <div class="left_grid_info">
+                    <h3>Already Registered?</h3>
+
+                    <a href="/product_finder/login/" class="btn">Login <i class="fa fa-long-arrow-right"
+                                                                          aria-hidden="true"></i></a>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+    <div class="footer">
+
+    </div>
+</div>
+</body>
+</html>

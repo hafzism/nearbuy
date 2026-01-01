@@ -1,0 +1,43 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+
+
+    <form method="post" action="/product_finder/search_delivery_status/#id">
+        {% csrf_token %}
+        <table class="pull-left">
+            <tr>
+                <th>From date</th>
+                   <td> <input type="date" name="sdate" class="form-control"></td>
+                <th>To date</th>
+                    <td><input type="date" name="edate" class="form-control"></td>
+                    <td><input type="submit" value="search" class="btn btn-primary"></td>
+
+            </tr>
+        </table>
+    <br>
+    </form>
+
+    <table class="table table-hover">
+        <tr>
+            <th>Slno</th>
+            <th>Delivery boy</th>
+            <th>Customer</th>
+            <th>Product Name</th>
+            <th>status</th>
+            <th>Date</th>
+        </tr>
+
+        {% for i in data %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.DELIVERY.d_name }}<br>{{ i.DELIVERY.number }}</td>
+                <td>{{ i.ORDER_SUB.ORDER_MAIN.CUSTOMER.c_name }}<br>
+                    {{ i.ORDER_SUB.ORDER_MAIN.CUSTOMER.number }}</td>
+                <td>{{ i.ORDER_SUB.PRODUCT.Product_name }}</td>
+                <td>{{ i.status }}</td>
+                <td>{{ i.date }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

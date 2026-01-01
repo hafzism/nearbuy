@@ -1,0 +1,67 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+
+    <form method="post" action="/product_finder/search_product/#id">
+        {% csrf_token %}
+        {#    <div class="input-group mb-3">#}
+        {#        <input type="text" name="pn" class="form-control" placeholder="Product" required>#}
+        {#        <div class="input-group-append">#}
+        {#            <input type="submit" value="Search" class="btn btn-primary">#}
+        {#        </div>#}
+        {#    </div>#}
+        <table class="pull-left">
+            <tr>
+                <td><input type="text" name="pn" class="form-control" placeholder="Product" required></td>
+                <td><input type="submit" value="Search" class="btn btn-primary"></td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <div class="row">
+        {% for i in page_obj %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ i.pic }}" class="card-img-top" alt="{{ i.Product_name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ i.Product_name }}</h5>
+                        <p class="card-text"><strong>Category:</strong> {{ i.CATEGORY.Category_name }}</p>
+                        <p class="card-text"><strong>Price:</strong> {{ i.price }}</p>
+                        <p class="card-text">{{ i.about }}</p>
+                        <a href="/product_finder/shop_edit_product/{{ i.id }}#id" class="btn btn-success">Edit</a>
+                        <a href="/product_finder/shop_del_product/{{ i.id }}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}#id" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}#id">{{ num }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}#id" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+{% endblock %}

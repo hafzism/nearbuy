@@ -1,0 +1,83 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+    <form method="post" action="/product_finder/admin_change_pass_post/" onsubmit="return validatePassword()">
+        {% csrf_token %}
+        <table class="table table-hover">
+            <tr>
+                <th>Current password</th>
+                <td><input type="password" name="op" required class="form-control"></td>
+            </tr>
+            <tr>
+                <th>New password</th>
+                <td>
+                    <input type="password" id="np" name="np" required class="form-control"
+                           oninput="checkPasswordStrength()">
+                    <small id="password-strength" class="text-muted"></small>
+                </td>
+            </tr>
+            <tr>
+                <th>Confirm password</th>
+                <td>
+                    <input type="password" id="cp" name="cp" required class="form-control"
+                           oninput="checkPasswordMatch()">
+                    <small id="password-match" class="text-muted"></small>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Submit" class="btn btn-primary"></td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        // Password validation pattern
+        const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$/;
+
+        // Check password strength
+        function checkPasswordStrength() {
+            const password = document.getElementById('np').value;
+            const strengthText = document.getElementById('password-strength');
+
+            if (!passwordPattern.test(password)) {
+                strengthText.innerHTML = "Password must be at least 8 characters, including 1 uppercase, 1 lowercase, 1 digit, and 1 special character.";
+                strengthText.style.color = "red";
+            } else {
+                strengthText.innerHTML = "Password is strong!";
+                strengthText.style.color = "green";
+            }
+        }
+
+        // Check if passwords match
+        function checkPasswordMatch() {
+            const password = document.getElementById('np').value;
+            const confirmPassword = document.getElementById('cp').value;
+            const matchText = document.getElementById('password-match');
+
+            if (password !== confirmPassword) {
+                matchText.innerHTML = "Passwords do not match!";
+                matchText.style.color = "red";
+            } else {
+                matchText.innerHTML = "Passwords match!";
+                matchText.style.color = "green";
+            }
+        }
+
+        // Validate password on form submit
+        function validatePassword() {
+            const password = document.getElementById('np').value;
+            const confirmPassword = document.getElementById('cp').value;
+
+            if (!passwordPattern.test(password)) {
+                alert("Password format is incorrect.");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+{% endblock %}

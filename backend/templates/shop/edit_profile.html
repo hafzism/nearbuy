@@ -1,0 +1,54 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+    <form action="/product_finder/shop_edit_profile_Post/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        <table table align="center" class="table table-hover">
+            <tr>
+                <td colspan="2">Change Licence photo</td>
+            </tr>
+            <tr>
+                <td><img src="{{ data.id_proof }}" height="30%" width="30%"></td>
+                <td><input type="file" name="pr" class="form-control"></td>
+            </tr>
+            <tr>
+                <td class="form-controll">SHOP NAME</td>
+                <td><input type="text" name="sn" value="{{ data.shop_name }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>OWNER NAME</td>
+                <td><input type="text" name="on" value="{{ data.owner_name }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>PHONE</td>
+                <td><input type="text" name="pno" value="{{ data.contact_no }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>EMAIL</td>
+                <td><input type="text" name="em" value="{{ data.email }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>Location Link</td>
+                <td><input type="text" name="loc" value="{{ data.location }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>PLACE</td>
+                <td><input type="text" name="plc" value="{{ data.place }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>DISTRICT</td>
+                <td><input type="text" name="ds" value="{{ data.district }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>STATE</td>
+                <td><input type="text" name="st" value="{{ data.state }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>PIN</td>
+                <td><input type="text" name="pn" value="{{ data.pin }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="EDIT" class="btn btn-success"></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

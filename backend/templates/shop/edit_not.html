@@ -1,0 +1,16 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+    <form action="/product_finder/shop_edit_notification_post/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="pull-left">
+            <input type="hidden" name="id" value="{{ data.id }}">
+            <tr>
+                <th>notification</th>
+                <th><textarea name="not" required class="form-control">{{ data.notification }}</textarea></th>
+            </tr>
+            <tr>
+                <td><input type="submit" class="btn btn-success" value="Edit"></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+    <form action="/product_finder/shop_add_product_post/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class="table table-hover">
+        <tr>
+            <th> Image </th>
+            <td> <input type="file" name="pi" class="form-control"> </td>
+        </tr>
+        <tr>
+            <th> Product name </th>
+            <td> <input type="text" name="pn" required class="form-control"> </td>
+        </tr>
+        <tr>
+            <th> Price </th>
+            <td> <input type="text" name="pa" required class="form-control"> </td>
+        </tr>
+
+        <tr>
+            <th> Choose category </th>
+
+            <td>
+            <select name="cat" class="form-control">
+                {% for i in data %}
+                    <option value="{{ i.id }}"> {{ i.Category_name }}</option>
+                {% endfor %}
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <th> About </th>
+            <td> <textarea name="pd" required class="form-control"> </textarea> </td>
+        </tr>
+        <tr>
+            <td> <input type="submit" value="Add" class="btn btn-success"></td>
+        </tr>
+    </table>
+    </form>
+{% endblock %}

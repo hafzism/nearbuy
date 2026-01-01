@@ -1,0 +1,63 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+
+    <form method="post" action="/product_finder/search_orders/#id">
+        {% csrf_token %}
+            <h4 style="text-align: center; font-family: 'Times New Roman', Times, serif; font-weight: bold; margin-top: 30px;">
+    Orders
+    </h4>
+    <br>
+        <table class="pull-left">
+            <tr>
+                <th>From date</th>
+                    <td><input type="date" name="sdate" required class="form-control"></td>
+                    <th>To date</th>
+                    <td><input type="date" name="edate" required class="form-control"></td>
+                    <td><input type="submit" value="search" class="btn btn-primary"></td>
+                </th>
+            </tr>
+        </table>
+    <br>
+    </form>
+
+        <table class="table table-hover">
+            <tr>
+                <th>Slno</th>
+                <th>Customer Details</th>
+                <th>Product Details</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+
+            {% for i in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><img src="{{ i.ORDER_MAIN.CUSTOMER.pic }}" width="100px" height="100px"><br>
+                        {{ i.ORDER_MAIN.CUSTOMER.c_name }}<br>
+                        {{ i.ORDER_MAIN.CUSTOMER.place }},
+                        {{ i.ORDER_MAIN.CUSTOMER.district}},
+                        {{ i.ORDER_MAIN.CUSTOMER.state }},
+                        {{ i.ORDER_MAIN.CUSTOMER.pin }}<br>
+                        {{ i.ORDER_MAIN.CUSTOMER.email }}<br>
+                        {{ i.ORDER_MAIN.CUSTOMER.number }}<br>
+
+                    </td>
+                    <td><img src="{{ i.PRODUCT.pic }}" width="100px" height="100px"><br>{{ i.PRODUCT.Product_name }}<br>Quantity:{{ i.r_quntity }}
+
+                    </td>
+
+                    <td>{{ i.ORDER_MAIN.request_date }}</td>
+
+                    <td>{{ i.total_price }}</td>
+                    <td>{% if i.ORDER_MAIN.status == 'pending' %}
+                        <a href="/product_finder/shop_assign_order/{{ i.id }}#id" class="btn btn-success">Assign</a>
+                        {% else %}
+                        {{ i.ORDER_MAIN.status }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+{% endblock %}

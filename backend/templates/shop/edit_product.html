@@ -1,0 +1,38 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+    <form action="/product_finder/shop_edit_product_post/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="pull-left">
+            <input type="hidden" name="id" value="{{ data.id }}">
+            <tr>
+                <th><img src="{{ data.pic }}" width="30%" height="30%"></th>
+            </tr>
+            <tr>
+                <td><input type="file" name="pi" class="form-control"></td>
+            </tr>
+            <tr>
+                <th>Product</th>
+                <td><input type="text" name="pn" value="{{ data.Product_name }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td><input type="number" name="pr" value="{{ data.price }}" class="form-control"></td>
+            </tr>
+            <th> Choose category</th>
+            <td>
+                <select name="cat" class="form-control">
+                    {% for i in drop %}
+                        <option value="{{ i.id }}" {% if i.id == data.CATEGORY_id %}selected{% endif %}> {{ i.Category_name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <tr>
+                <th>About</th>
+                <td><input type="text" name="pa" value="{{ data.about }}" class="form-control"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" class="btn btn-success" value="Edit"></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

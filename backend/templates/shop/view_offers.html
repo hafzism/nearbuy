@@ -1,0 +1,40 @@
+{% extends 'shop/home_index.html' %}
+{% block body %}
+
+    <form method="post" action="/product_finder/search_offers/#id">
+        {% csrf_token %}
+        <table class="pull-left">
+            <tr>
+                <th>From date</th>
+                    <td><input type="date" name="sdate" required class="form-control"></td>
+                   <th>From date</th>
+                    <td><input type="date" name="edate" required class="form-control"></td>
+                    <td><input type="submit" value="search" class="btn btn-primary"></td>
+            </tr>
+        </table>
+    </form>
+<br>
+    <table class="table table-hover">
+        <tr>
+            <th>Slno</th>
+            <th>Details</th>
+            <th>Starting Date</th>
+            <th>End Date</th>
+            <th>Product Name</th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for i in data %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.offer_des }}</td>
+                <td>{{ i.s_date }}</td>
+                <td>{{ i.e_date }}</td>
+                <td>{{ i.PRODUCT.Product_name }}</td>
+                <td><a href="/product_finder/shop_edit_offers/{{ i.id }}#id" class="btn btn-success">Edit</a></td>
+                <td><a href="/product_finder/shop_delete_offers/{{ i.id }}#id" class="btn btn-danger">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

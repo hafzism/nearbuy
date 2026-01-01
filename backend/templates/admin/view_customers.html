@@ -1,0 +1,49 @@
+{% extends 'admin/home_index.html' %}
+{% block body %}
+
+    <form method="post" action="/product_finder/search_customer/#id">
+        {% csrf_token %}
+    <h4 style="text-align: center; font-family: 'Times New Roman', Times, serif; font-weight: bold; margin-top: 30px;">
+    Customers List
+    </h4>
+    <br>
+        <table class="pull-left">
+            <tr>
+                <th><input type="text" name="cn" class="form-control" placeholder="customer name" required></th>
+                <td><input type="submit" value="search" class="btn btn-primary"></td>
+            </tr>
+        </table>
+
+    <br>
+    <br>
+
+        <table class="table table-hover">
+            <tr>
+                <th>Slno</th>
+                <th>Name</th>
+                <th>D.O.B</th>
+                <th>Number</th>
+                <th>Email</th>
+                <th>Place</th>
+                <th>District</th>
+                <th>State</th>
+                <th>Pin</th>
+                <th>Image</th>
+            </tr>
+            {% for i in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.c_name }}</td>
+                    <td>{{ i.dob }}</td>
+                    <td>{{ i.number }}</td>
+                    <td>{{ i.email }}</td>
+                    <td>{{ i.place }}</td>
+                    <td>{{ i.district }}</td>
+                    <td>{{ i.state }}</td>
+                    <td>{{ i.pin }}</td>
+                    <td><img src="{{ i.pic }}" width="50%" height="50%"></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+{% endblock %}
