@@ -40,7 +40,7 @@ We will use **Render.com** (or similar PaaS like Railway) because it simplifies 
     - **Runtime**: `Python 3`
     - **Build Command**: 
         ```bash
-        pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+        pip install -r requirements.txt && python manage.py migrate && python manage.py init_users && python manage.py collectstatic --noinput
         ```
     - **Start Command**: 
         ```bash

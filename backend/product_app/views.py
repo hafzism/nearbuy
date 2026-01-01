@@ -27,7 +27,7 @@ def login_post(request):
     if lobj.exists():
         lobj2 = Login.objects.get(username=name, password=password)
         request.session['lid'] = lobj2.id
-        print(request.session['lid'])
+        print(f"Login Success: {name} (ID: {lobj2.id}, Type: {lobj2.type})")
         if lobj2.type == 'admin':
             return redirect('/product_finder/admin_home/')
         elif lobj2.type == 'shop':
@@ -35,8 +35,15 @@ def login_post(request):
         elif lobj2.type == 'customer':
             return redirect('/product_finder/shop_home/')
         else:
-            return HttpResponse('''<script>alert("invalid");window.location='/product_finder/login/'</script>''')
+            print(f"Login Invalid Type: {lobj2.type}")
+            return HttpResponse('''<script>alert("invalid type");window.location='/product_finder/login/'</script>''')
     else:
+        print(f"Login Failed for username: '{name}' with password: '{password}'")
+        # Check if user exists but wrong password
+        if Login.objects.filter(username=name).exists():
+           print(f"User '{name}' exists but password did not match.")
+        else:
+           print(f"User '{name}' does not exist.")
         return HttpResponse('''<script>alert("invalid");window.location='/product_finder/login/'</script>''')
 
 
