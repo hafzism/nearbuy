@@ -321,50 +321,58 @@ def shop_edit_profile(request):
 def shop_edit_profile_post(request):
     obj = Shop.objects.get(LOGIN_id=request.session['lid'])
 
-    sname = request.POST['sn']
-    oname = request.POST['on']
-    location = request.POST['loc']
-    phno = request.POST['pno']
-    email = request.POST['em']
+    try:
+        sname = request.POST.get('sn')
+        oname = request.POST.get('on')
+        location = request.POST.get('loc')
+        phno = request.POST.get('pno')
+        email = request.POST.get('em')
+        place = request.POST.get('plc')
+        dist = request.POST.get('ds')
+        state = request.POST.get('st')
+        pin = request.POST.get('pn')
+        
+        if not all([sname, oname, location, phno, email, place, dist, state, pin]):
+             return HttpResponse("<script>alert('Please fill all fields');window.location='/product_finder/shop_view_profile/'</script>")
 
-    if 'pr' in request.FILES:
-        photo = request.FILES['pr']
-        fs = FileSystemStorage()
-        d = datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + '.jpg'
-        im = fs.save(d, photo)
-        path = fs.url(d)
-        obj.id_proof = path
+        obj = Login.objects.filter(username=email).exclude(id=request.session['lid'])
+        ob = Shop.objects.filter(contact_no=phno).exclude(LOGIN_id=request.session['lid'])
+        if obj.exists():
+            return HttpResponse('''<script>alert('Email already exist');window.location='/product_finder/shop_view_profile/'</script>''')
+        elif ob.exists():
+            return HttpResponse('''<script>alert('Phone already exist');window.location='/product_finder/shop_view_profile/'</script>''')
+        else:
 
-    place = request.POST['plc']
-    dist = request.POST['ds']
-    state = request.POST['st']
-    pin = request.POST['pn']
+            lobj = Login.objects.get(id=request.session['lid'])
+            lobj.username = email
+            lobj.save()
 
-    obj = Login.objects.filter(username=email).exclude(id=request.session['lid'])
-    ob = Shop.objects.filter(number=phno).exclude(LOGIN_id=request.session['lid'])
-    if obj.exists():
-        return HttpResponse('''<script>alert('Email already exist');window.location='/product_finder/shop_view_profile/'</script>''')
-    elif ob.exists():
-        return HttpResponse('''<script>alert('Phone already exist');window.location='/product_finder/shop_view_profile/'</script>''')
-    else:
-
-        lobj = Login.objects.get(id=request.session['lid'])
-        lobj.username = email
-        lobj.save()
-
-        obj = Shop.objects.get(LOGIN_id=request.session['lid'])
-        obj.shop_name = sname
-        obj.owner_name = oname
-        obj.location = location
-        obj.contact_no = phno
-        obj.email = email
-        obj.place = place
-        obj.district = dist
-        obj.state = state
-        obj.pin = pin
-        obj.LOGIN_id = request.session['lid']
-        obj.save()
-        return HttpResponse('''<script>alert('Edited');window.location='/product_finder/shop_view_profile/'</script>''')
+            obj = Shop.objects.get(LOGIN_id=request.session['lid'])
+            obj.shop_name = sname
+            obj.owner_name = oname
+            obj.location = location
+            obj.contact_no = phno
+            obj.email = email
+            obj.place = place
+            obj.district = dist
+            obj.state = state
+            obj.pin = pin
+            obj.LOGIN_id = request.session['lid']
+            
+            if 'pr' in request.FILES:
+                photo = request.FILES['pr']
+                if photo.name != '':
+                    fs = FileSystemStorage()
+                    d = datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + '.jpg'
+                    im = fs.save(d, photo)
+                    path = fs.url(d)
+                    obj.id_proof = path
+            
+            obj.save()
+            return HttpResponse('''<script>alert('Edited');window.location='/product_finder/shop_view_profile/'</script>''')
+    except Exception as e:
+        print(f"Error in shop_edit_profile_post: {e}")
+        return HttpResponse("<script>alert('Error updating profile');window.location='/product_finder/shop_view_profile/'</script>")
 
 
 @login_required
@@ -434,26 +442,36 @@ def shop_add_product(request):
 
 @login_required
 def shop_add_product_post(request):
-    id = request.POST['cat']
-    pname = request.POST['pn']
-    pamnt = request.POST['pa']
-    pabt = request.POST['pd']
+    try:
+        id = request.POST.get('cat')
+        pname = request.POST.get('pn')
+        pamnt = request.POST.get('pa')
+        pabt = request.POST.get('pd')
 
-    pimage = request.FILES['pi']
-    fs = FileSystemStorage()
-    d = datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + '.jpg'
-    im = fs.save(d, pimage)
-    path = fs.url(d)
+        if not all([id, pname, pamnt, pabt]):
+             return HttpResponse("<script>alert('Missing fields');window.location='/product_finder/shop_add_product/#id'</script>")
 
-    obj = Product()
-    obj.pic = path
-    obj.Product_name = pname
-    obj.about = pabt
-    obj.price = pamnt
-    obj.CATEGORY_id = id
-    obj.save()
-    return HttpResponse(
-        "<script>alert('Product Added');window.location='/product_finder/shop_view_products/#id'</script>")
+        path = '/static/web/images/default.jpg' # Default or handle error
+        if 'pi' in request.FILES:
+            pimage = request.FILES['pi']
+            if pimage.name != '':
+                fs = FileSystemStorage()
+                d = datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + '.jpg'
+                im = fs.save(d, pimage)
+                path = fs.url(d)
+
+        obj = Product()
+        obj.pic = path
+        obj.Product_name = pname
+        obj.about = pabt
+        obj.price = pamnt
+        obj.CATEGORY_id = id
+        obj.save()
+        return HttpResponse(
+            "<script>alert('Product Added');window.location='/product_finder/shop_view_products/#id'</script>")
+    except Exception as e:
+        print(f"Error in shop_add_product_post: {e}")
+        return HttpResponse("<script>alert('Error adding product');window.location='/product_finder/shop_add_product/#id'</script>")
 
 
 from django.core.paginator import Paginator
@@ -490,28 +508,33 @@ def shop_edit_product(request, id):
 
 @login_required
 def shop_edit_product_post(request):
-    id = request.POST['id']
-    cid = request.POST['cat']
-    obj = Product.objects.get(id=id)
+    try:
+        id = request.POST.get('id')
+        cid = request.POST.get('cat')
+        pname = request.POST.get('pn')
+        pabt = request.POST.get('pa')
+        amnt = request.POST.get('pr')
 
-    pname = request.POST['pn']
-    pabt = request.POST['pa']
-    amnt = request.POST['pr']
-    if 'pi' in request.FILES:
-        image = request.FILES['pi']
-        fs = FileSystemStorage()
-        d = datetime.datetime.now().strftime('%Y%m%d-%H%S%M') + '.jpg'
-        im = fs.save(d, image)
-        path = fs.url(d)
-        obj.pic = path
+        obj = Product.objects.get(id=id)
 
-    obj.Product_name = pname
-    obj.price = amnt
-    obj.about = pabt
-    obj.CATEGORY_id = cid
-    print(id)
-    obj.save()
-    return HttpResponse("<script>alert('Edited');window.location='/product_finder/shop_view_products/'</script>")
+        if 'pi' in request.FILES:
+            image = request.FILES['pi']
+            if image.name != '':
+                fs = FileSystemStorage()
+                d = datetime.datetime.now().strftime('%Y%m%d-%H%S%M') + '.jpg'
+                im = fs.save(d, image)
+                path = fs.url(d)
+                obj.pic = path
+
+        obj.Product_name = pname
+        obj.price = amnt
+        obj.about = pabt
+        obj.CATEGORY_id = cid
+        obj.save()
+        return HttpResponse("<script>alert('Edited');window.location='/product_finder/shop_view_products/'</script>")
+    except Exception as e:
+        print(f"Error in shop_edit_product_post: {e}")
+        return HttpResponse("<script>alert('Error editing product');window.location='/product_finder/shop_view_products/'</script>")
 
 
 @login_required
