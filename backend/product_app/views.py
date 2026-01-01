@@ -1000,7 +1000,7 @@ def user_view_profile(request):
     i = Customer.objects.get(LOGIN_id=lid)
 
     return JsonResponse({"status": "ok", "id": i.id, "name": i.c_name,
-                         "place": i.place, "pin": i.pin, "dis": i.district,
+                         "place": i.place, "pin": i.pin, "district": i.district,
                          "state": i.state, "phone": i.number, "email": i.email, "dob": i.dob,
                          "profile": i.pic})
 
@@ -1666,7 +1666,7 @@ def dboy_view_profile(request):
     i = Delivery_boy.objects.get(LOGIN_id=lid)
 
     return JsonResponse({"status": "ok", "id": i.id, "name": i.d_name,
-                         "place": i.place, "pin": i.pin, "dis": i.district,
+                         "place": i.place, "pin": i.pin, "district": i.district,
                          "state": i.state, "phone": i.number, "email": i.email, "dob": i.dob,
                          "photo": i.pic, "photo1": str(i.id_proof)})
 
@@ -1724,7 +1724,7 @@ def dboy_edit_profile(request):
         return JsonResponse({"status":"no"})
     else:
         a = Delivery_boy.objects.get(LOGIN_id=lid)
-        a.c_name = name
+        a.d_name = name
         a.place = place
         a.pin = pin
         a.district = district
