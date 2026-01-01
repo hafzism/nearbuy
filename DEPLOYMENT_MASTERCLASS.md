@@ -36,45 +36,34 @@ We will use **Render.com** (or similar PaaS like Railway) because it simplifies 
     - Connect your GitHub repository.
 
 3.  **Configure Build Settings**:
-    - **Root Directory**: `nearbuy/backend` (Critical! Tell Render where the code is).
-    - **Runtime**: `Python 3`.
-    - **Build Command**:
+    - **Root Directory**: `backend` (if you are in the `nearbuy` repo)
+    - **Runtime**: `Python 3`
+    - **Build Command**: 
         ```bash
-        pip install -r requirements.txt && python manage.py collectstatic --noinput
+        pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
         ```
-        *Explanation*: This installs libraries and prepares static files (CSS/Images) for the web.
-    - **Start Command**:
+    - **Start Command**: 
         ```bash
         gunicorn product_finder.wsgi:application
         ```
-        *Explanation*: `gunicorn` is a production-grade server. `python runserver` is ONLY for your laptop.
 
 4.  **Environment Variables**:
-    - Add these secrets in the "Environment" tab:
-        - `SECRET_KEY`: (Generate a random string)
-        - `DEBUG`: `False` (Security best practice)
-        - `DATABASE_URL`: (See Section 3 below)
+    Go to the **Environment** tab in Render and add:
+    - `SECRET_KEY`: `(click 'Generate' or enter a long random string)`
+    - `DEBUG`: `False` (Important: always False in production!)
+    - `ALLOWED_HOSTS`: `*` (or your actual `.onrender.com` domain)
 
 ---
 
-## 3. The Database (MySQL)
+## 3. The SQLite Challenge on Render
 
-You cannot store the database files (`db.sqlite3`) on Render's free tier because the filesystem is ephemeral (it resets every restart). You need a dedicated Database Server.
+**⚠️ Warning**: Your database is currently using **SQLite** (`db.sqlite3`). 
+On Render's Free tier, the disk is "ephemeral." This means **every time you push new code or the server restarts, your database will be wiped clean.**
 
-### Option A: Render MySQL (Paid)
-- Easiest integration, but costs money (~$7/mo).
-
-### Option B: Clever Cloud / Railway (Free Tier)
-- **Clever Cloud** offers a free MySQL addon.
-- **Railway** offers a trial.
-- **Steps**:
-    1. Create a MySQL database on the provider.
-    2. Get the **Connection URL** (looks like `mysql://user:pass@host:port/dbname`).
-    3. Go back to Render -> Environment Variables.
-    4. Set `DATABASE_URL` = `mysql://...` (You may need to update `settings.py` to read this variable using `dj-database-url` library, which is a standard industry practice).
-
-**Note for this Academic Project**:
-If you just want to show a demo and don't care about data persistence after restart, you can stick to `SQLite` (default) on Render. It **will** work, but data will vanish if the server sleeps/restarts. For a college demo, this is often acceptable.
+### How to handle this:
+1.  **For a College Demo**: It is usually okay. Just register a shop and customer right before the demo. 
+2.  **For Real Use**: You must use a "Managed Database" like **Render PostgreSQL** or a free MySQL provider like **Aiven**. 
+    - If you switch, you just need to change the `DATABASE_URL` and Render will handle the connection.
 
 ---
 
