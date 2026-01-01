@@ -40,6 +40,7 @@ python backend/manage.py runserver
 - **Admin Panel**: [http://127.0.0.1:8000/product_finder/login/](http://127.0.0.1:8000/product_finder/login/)
     - **Default Credentials**: `admin` / `123` (Auto-created on startup)
 - **Shop Login**: [http://127.0.0.1:8000/product_finder/login/](http://127.0.0.1:8000/product_finder/login/)
+    - **Default Credentials**: `shop` / `123` (Auto-created on startup)
 - **Shop Registration**: [http://127.0.0.1:8000/product_finder/shop_register/](http://127.0.0.1:8000/product_finder/shop_register/)
     - *Note*: Use the registration link to create a new Shop account.
 
