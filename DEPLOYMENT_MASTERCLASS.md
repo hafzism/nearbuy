@@ -46,7 +46,7 @@ We will use **Render.com** (or similar PaaS like Railway) because it simplifies 
         ```bash
         gunicorn product_finder.wsgi:application
         ```
-    > **Note**: If you see `ModuleNotFoundError: No module named 'cgi'`, it means Render is using Python 3.13 (which removed `cgi`). We added `runtime.txt` to force Python 3.9. If it persists, ensure `runtime.txt` is in the Root Directory you set above.
+    > **Note**: We have upgraded the project to **Django 4.2** and **Python 3.11** to ensure full compatibility with Render's latest infrastructure. A `runtime.txt` file is included to enforce this stability.
 
 4.  **Environment Variables**:
     Go to the **Environment** tab in Render and add:
