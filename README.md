@@ -1,4 +1,4 @@
-# Nearbuy - Hyperlocal E-Commerce Platform
+# Nearbuy - find products from nearby shops
 
 A comprehensive solution for local shopping, connecting Customers, Shops, and Delivery Boys.
 

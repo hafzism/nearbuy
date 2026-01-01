@@ -130,8 +130,14 @@ class _ipState extends State<ip> {
   void senddata()async {
     String ip = ipcontroller.text;
     SharedPreferences sh = await SharedPreferences.getInstance();
-    sh.setString("url", "http://" + ip + ":8000/product_finder");
-    sh.setString("img_url", "http://" + ip + ":8000");
+    // PRODUCTION URL
+    String prodUrl = "https://nearbuy-project.onrender.com";
+    sh.setString("url", prodUrl + "/product_finder");
+    sh.setString("img_url", prodUrl);
+    
+    // Legacy IP logic (commented out for production)
+    // sh.setString("url", "http://" + ip + ":8000/product_finder");
+    // sh.setString("img_url", "http://" + ip + ":8000");
     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 

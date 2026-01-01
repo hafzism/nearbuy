@@ -6,21 +6,21 @@
 echo ">>> Starting Local Setup..."
 
 # 1. Install Flutter if missing
-# Line 10: Point to parent tools folder
-if [ ! -d "../tools/flutter" ]; then
+# Install LOCALLY in ./tools/flutter
+if [ ! -d "tools/flutter" ]; then
     echo ">>> Flutter not found. Downloading..."
-    mkdir -p ../tools
+    mkdir -p tools
     
-    # ... (curl stuff) ...
+    wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.2-stable.tar.xz
+    
     echo ">>> Extracting Flutter..."
-    # Line 22: Extract into parent tools folder
-    tar -xf flutter.tar.xz -C ../tools/
-    rm flutter.tar.xz
+    tar -xf flutter_linux_3.22.2-stable.tar.xz -C tools/
+    rm flutter_linux_3.22.2-stable.tar.xz
 else
     echo ">>> Flutter already installed in tools/flutter."
 fi
-# Line 30: Update path to point one level up
-export PATH="$PATH:$(pwd)/../tools/flutter/bin"
+
+export PATH="$PATH:$(pwd)/tools/flutter/bin"
 echo ">>> Flutter configured."
 flutter --version
 

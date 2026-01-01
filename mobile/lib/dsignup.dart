@@ -188,9 +188,26 @@ class _dboyregState extends State<dboyreg> {
       if (response.statusCode == 200) {
         String status = jsonDecode(response.body)['status'];
         if (status == 'ok') {
-          Fluttertoast.showToast(msg: 'Signup successful');
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage(),),);
-          // Navigate to the next page if necessary
+          // Fluttertoast.showToast(msg: 'Signup successful');
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Registration Successful"),
+                content: Text("Your account has been created. \n\nPlease wait for Admin Approval before logging in."),
+                actions: [
+                  TextButton(
+                    child: Text("OK"),
+                    onPressed: () {
+                      Navigator.pop(context); // Close dialog
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                    },
+                  )
+                ],
+              );
+            },
+          );
         }
 
         else if (status == 'no'){

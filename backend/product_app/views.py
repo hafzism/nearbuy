@@ -949,14 +949,15 @@ def userregister(request):
     confirmpassword = request.POST['confirmpassword']
 
     from datetime import datetime
-    date = datetime.now().strftime("%Y%m%d-%H%M%S") + ".jpg"
     import base64
+    from django.core.files.base import ContentFile
 
+    date = datetime.now().strftime("%Y%m%d-%H%M%S") + ".jpg"
     a = base64.b64decode(photo)
-    fh = open(r"C:\Users\hafeez\PycharmProjects\product_finder\media\user\\" + date + ".jpg", "wb")
-    path = "/media/user/" + date + ".jpg"
-    fh.write(a)
-    fh.close()
+    
+    fs = FileSystemStorage()
+    filename = fs.save(f"user/{date}", ContentFile(a))
+    path = fs.url(filename)
 
     # c = base64.b64decode(proof)
     # d1 = datetime.now().strftime("%Y%m%d-%H%M%S") + "1.jpg"
@@ -1024,13 +1025,15 @@ def user_edit_profile(request):
     if len(profile) > 5:
         import datetime
         import base64
+        from django.core.files.base import ContentFile
 
-        date = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        date = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + ".jpg"
         a = base64.b64decode(profile)
-        with open(f"C:\\Users\\hafeez\\PycharmProjects\\product_finder\\media\\user\\{date}.jpg", "wb") as fh:
-            path = f"/media/user/{date}.jpg"
-            fh.write(a)
-            print(path,'----')
+        
+        fs = FileSystemStorage()
+        filename = fs.save(f"user/{date}", ContentFile(a))
+        path = fs.url(filename)
+        print(path, '----')
 
         customer = Customer.objects.get(LOGIN_id=lid)
         customer.pic = path
@@ -1609,21 +1612,24 @@ def dboy_register(request):
     confirmpassword = request.POST['confirmpassword']
 
     from datetime import datetime
-    date = datetime.now().strftime("%Y%m%d-%H%M%S")
     import base64
+    from django.core.files.base import ContentFile
 
+    date = datetime.now().strftime("%Y%m%d-%H%M%S")
+    
+    fs = FileSystemStorage()
+
+    # Save Profile Photo
     a = base64.b64decode(photo)
-    fh = open("C:\\Users\\hafeez\\PycharmProjects\\product_finder\\media\\user\\" + date + ".jpg", "wb")
-    path = "/media/user/" + date + ".jpg"
-    fh.write(a)
-    fh.close()
+    file_name = f"user/{date}.jpg"
+    saved_name = fs.save(file_name, ContentFile(a))
+    path = fs.url(saved_name)
 
+    # Save Proof
     c = base64.b64decode(proof)
-    d1 = datetime.now().strftime("%Y%m%d-%H%M%S")
-    fh1 = open("C:\\Users\\hafeez\\PycharmProjects\\product_finder\\media\\user\\" + date + "1.jpg", "wb")
-    path1 = "/media/user/" + d1 + "1.jpg"
-    fh1.write(c)
-    fh1.close()
+    file_name_proof = f"user/{date}1.jpg"
+    saved_name_proof = fs.save(file_name_proof, ContentFile(c))
+    path1 = fs.url(saved_name_proof)
 
 
     obj = Login.objects.filter(username=email)
@@ -1681,27 +1687,30 @@ def dboy_edit_profile(request):
     if len(image) > 5:
         import datetime
         import base64
+        from django.core.files.base import ContentFile
 
         date = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         a = base64.b64decode(image)
-        fh = open("C:\\Users\\hafeez\\PycharmProjects\\product_finder\\media\\user\\" + date + ".jpg", "wb")
-
-        path = "/media/user/" + date + ".jpg"
-        fh.write(a)
-        fh.close()
+        
+        fs = FileSystemStorage()
+        saved_name = fs.save(f"user/{date}.jpg", ContentFile(a))
+        path = fs.url(saved_name)
+        
         d = Delivery_boy.objects.get(LOGIN_id=lid)
-        d.image = path
+        d.pic = path # Changed from image to pic as per model usage elsewhere, assuming model field is pic based on dboy_register
         d.save()
+        
     if len(id_proof) > 5:
         import datetime
         import base64
+        from django.core.files.base import ContentFile
+        
         date = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         a1 = base64.b64decode(id_proof)
-        fh1 = open("C:\\Users\\hafeez\\PycharmProjects\\product_finder\\media\\user\\" + date + "1.jpg", "wb")
-
-        path1 = "/media/user/" + date + "1.jpg"
-        fh1.write(a1)
-        fh1.close()
+        
+        fs = FileSystemStorage()
+        saved_name1 = fs.save(f"user/{date}1.jpg", ContentFile(a1))
+        path1 = fs.url(saved_name1)
 
         d = Delivery_boy.objects.get(LOGIN_id=lid)
         d.id_proof = path1

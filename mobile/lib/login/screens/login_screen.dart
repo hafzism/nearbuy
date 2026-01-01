@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: emailController,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(), label: Text('User Name')),
+                          border: OutlineInputBorder(), label: Text('Email')),
                       validator: (value){
                         if (value == null || value.isEmpty){
                           return "please enter valid username";
@@ -135,11 +135,9 @@ class _LoginPageState extends State<LoginPage> {
 
 
                   SizedBox(height: 15,),
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                        onPressed: () {
-                          _send_data();                 // Navigate to signup screen
+                      FilledButton(
+                        onPressed: _isLoading ? null : () {
+                          _send_data();
                         },
                         style: ButtonStyle(
                           padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 16)),
@@ -148,12 +146,13 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(10),
                           )),
                         ),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
+                        child: _isLoading
+                            ? SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2,))
+                            : Text(
+                                'Login',
+                                style: TextStyle(fontSize: 16, color: Colors.white),
+                              ),
                       ),
-                    ),
 
 
                   ],
@@ -220,7 +219,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
+  bool _isLoading = false;
+
   void _send_data() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
     String uname = emailController.text;
     String pass = passwordController.text;
 
@@ -230,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
     final urls = Uri.parse('$url/user_login_post/');
     try {
       final response = await http.post(urls, body: {
-        'username': uname, //'name'in request.post['name]
+        'username': uname,
         'password': pass,
       });
       if (response.statusCode == 200) {
@@ -244,33 +251,31 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>cus_home(),),);
           }
           else if(type == "dboy"){
-            Fluttertoast.showToast(msg: 'Welcome !');
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>deliver_home(),),);
-
+            String dboyStatus = jsonDecode(response.body)['status_dboy'] ?? 'approved';
+            if (dboyStatus == 'approved') {
+                 Fluttertoast.showToast(msg: 'Welcome !');
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=>deliver_home(),),);
+            } else {
+                 Fluttertoast.showToast(msg: 'Your account is pending admin approval.');
+            }
           }
-
           else{
             Fluttertoast.showToast(msg: 'Not Found !');
-
-
           }
-
-
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => home(title: ""),
-          //     ));
         } else {
-          Fluttertoast.showToast(msg: 'Not Found');
+          Fluttertoast.showToast(msg: 'Invalid Credentials');
         }
       } else {
         Fluttertoast.showToast(msg: 'Network Error');
       }
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
+    } finally {
+        if (mounted) {
+            setState(() {
+                _isLoading = false;
+            });
+        }
     }
   }
-
-
 }

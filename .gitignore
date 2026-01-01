@@ -20,6 +20,9 @@ db.sqlite3
 *.mo
 *.pot
 
+tools/
+
+
 # Flutter
 .dart_tool/
 .flutter-plugins
