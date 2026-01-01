@@ -7,6 +7,14 @@ from django.shortcuts import render, redirect
 from product_app.models import *
 
 
+# Custom Decorator for Route Protection
+def login_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if 'lid' not in request.session or request.session['lid'] == '':
+            return redirect('/product_finder/login/')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
 def login(request):
     return render(request, 'index.html')
 
@@ -34,64 +42,56 @@ def login_post(request):
 
 # -----------------------admin-admin-admin-------------
 
+@login_required
 def admin_home(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     return render(request, 'admin/home_index.html')
 
 
+@login_required
 def admin_view_shop(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Shop.objects.filter(status='pending')
     return render(request, 'admin/view_shop.html', {"data": obj})
 
 
+@login_required
 def search_shop(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['ss']
     obj = Shop.objects.filter(status='pending', shop_name__icontains=srch)
     return render(request, 'admin/view_shop.html', {"data": obj})
 
 
+@login_required
 def admin_approve_shop(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     lobj = Login.objects.filter(id=id).update(type='shop')
     obj = Shop.objects.filter(LOGIN=id).update(status='approved')
     return HttpResponse(
         '''<script>alert('approved');window.location='/product_finder/admin_approved_shops/#id'</script>''')
 
 
+@login_required
 def admin_approved_shop(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Shop.objects.filter(status='approved')
     return render(request, 'admin/approved_shop.html', {"data": obj})
 
 
+@login_required
 def search_app_shop(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['ss']
     obj = Shop.objects.filter(status='approved', shop_name__icontains=srch)
     return render(request, 'admin/approved_shop.html', {"data": obj})
 
 
 
+@login_required
 def admin_reject_shop(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     lobj = Login.objects.filter(id=id).update(type='shop')
     obj = Shop.objects.filter(LOGIN=id).update(status='rejected')
     return HttpResponse(
         '''<script>alert('rejected');window.location='/product_finder/admin_rejected_shops/#id'</script>''')
 
 
+@login_required
 def admin_rejected_shop(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Shop.objects.filter(status='rejected')
     return render(request, 'admin/rejected_shop.html', {"data": obj})
 
@@ -99,63 +99,57 @@ def admin_rejected_shop(request):
 
 #--------------------------------
 
+#--------------------------------
+
+@login_required
 def admin_view_dboy(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Delivery_boy.objects.filter(status='pending')
     return render(request, 'admin/view_dboy.html', {"data": obj})
 
 
+@login_required
 def search_dboy(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['ss']
     obj = Delivery_boy.objects.filter(status='pending', d_name__icontains=srch)
     return render(request, 'admin/view_dboy.html', {"data": obj})
 
 
+@login_required
 def admin_approve_dboy(request,id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     Login.objects.filter(id=id).update(type='dboy')
     Delivery_boy.objects.filter(LOGIN=id).update(status='approved')
     return HttpResponse('''<script>alert('approved');window.location='/product_finder/admin_approved_dboy/#id'</script>''')
 
 
+@login_required
 def admin_approved_dboy(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Delivery_boy.objects.filter(status='approved')
     return render(request, 'admin/approved_dboy.html', {"data": obj})
 
+@login_required
 def search_app_dboy(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['ss']
     obj = Delivery_boy.objects.filter(status='approved', d_name__icontains=srch)
     return render(request, 'admin/approved_dboy.html', {"data": obj})
 
 
 
+@login_required
 def admin_reject_dboy(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     lobj = Login.objects.filter(id=id).update(type='reject')
     obj = Delivery_boy.objects.filter(LOGIN=id).update(status='rejected')
     return HttpResponse(
         '''<script>alert('rejected');window.location='/product_finder/admin_rejected_dboy/#id'</script>''')
 
 
+@login_required
 def admin_rejected_dboy(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Delivery_boy.objects.filter(status='rejected')
     return render(request, 'admin/rejected_dboy.html', {"data": obj})
 
 
+@login_required
 def search_rej_dboy(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['ss']
     obj = Delivery_boy.objects.filter(status='rejected', d_name__icontains=srch)
     return render(request, 'admin/approved_dboy.html', {"data": obj})
@@ -163,62 +157,54 @@ def search_rej_dboy(request):
 #--------------------------------------------------
 
 
+@login_required
 def admin_view_feedback(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Feedback.objects.all()
     return render(request, 'admin/view_feedback.html', {"data": obj})
 
 
+@login_required
 def search_feed(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     fd = request.POST['sdate']
     ed = request.POST['edate']
     obj = Feedback.objects.filter(date__range=[fd, ed])
     return render(request, 'admin/view_feedback.html', {"data": obj})
 
 
+@login_required
 def admin_view_customers(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Customer.objects.all()
     return render(request, 'admin/view_customers.html', {"data": obj})
 
 
+@login_required
 def search_cus(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['cn']
     obj = Customer.objects.filter(c_name__icontains=srch)
     return render(request, 'admin/view_customers.html', {"data": obj})
 
 
+@login_required
 def admin_view_review(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Review.objects.all()
     return render(request, 'admin/view_review.html', {"data": obj})
 
 
+@login_required
 def search_review(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     fd = request.POST['sdate']
     ed = request.POST['edate']
     obj = Review.objects.filter(date__range=[fd, ed])
     return render(request, 'admin/view_review.html', {"data": obj})
 
 
+@login_required
 def admin_change_password(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     return render(request, 'admin/change_pass.html')
 
 
+@login_required
 def admin_cp_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     old = request.POST['op']
     cur = request.POST['np']
     cnew = request.POST['cp']
@@ -243,9 +229,8 @@ def logout(request):
 
 # -------------------------------shop---shop-------------
 
+@login_required
 def shop_home(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     return render(request, 'shop/home_index.html')
 
 
@@ -313,23 +298,20 @@ def shop_reg_post(request):
             return HttpResponse('''<script>alert('Try again');window.location='/product_finder/shop_register/'</script>''')
 
 
+@login_required
 def shop_view_profile(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Shop.objects.get(LOGIN_id=request.session['lid'])
     return render(request, 'shop/view_profile.html', {"data": obj})
 
 
+@login_required
 def shop_edit_profile(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Shop.objects.get(LOGIN_id=request.session['lid'])
     return render(request, 'shop/edit_profile.html', {"data": obj})
 
 
+@login_required
 def shop_edit_profile_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Shop.objects.get(LOGIN_id=request.session['lid'])
 
     sname = request.POST['sn']
@@ -378,15 +360,13 @@ def shop_edit_profile_post(request):
         return HttpResponse('''<script>alert('Edited');window.location='/product_finder/shop_view_profile/'</script>''')
 
 
+@login_required
 def shop_add_category(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     return render(request, 'shop/add_categery.html')
 
 
+@login_required
 def shop_add_category_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     category = request.POST['cat']
     shop = Shop.objects.get(LOGIN_id=request.session['lid'])
 
@@ -402,29 +382,27 @@ def shop_add_category_post(request):
     return HttpResponse("<script>alert('Added');window.location='/product_finder/shop_view_category/#id'</script>")
 
 
+@login_required
 def shop_view_category(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Category.objects.filter(SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/view_category.html', {"data": obj})
 
 
+@login_required
 def search_category(request):
     srch = request.POST['ct']
     obj = Category.objects.filter(Category_name__icontains=srch)
     return render(request, 'shop/view_category.html', {"data": obj})
 
 
+@login_required
 def shop_edit_cat(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Category.objects.get(id=id)
     return render(request, 'shop/edit_cat.html', {"data": obj})
 
 
+@login_required
 def shop_edit_cat_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     cname = request.POST['cat']
     id = request.POST['id']
 
@@ -435,23 +413,20 @@ def shop_edit_cat_post(request):
     return HttpResponse("<script>alert('Edited');window.location='/product_finder/shop_view_category/#id'</script>")
 
 
+@login_required
 def shop_del_cat(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Category.objects.get(id=id).delete()
     return HttpResponse("<script>alert('Deleted');window.location='/product_finder/shop_view_category/#id'</script>")
 
 
+@login_required
 def shop_add_product(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     res = Category.objects.filter(SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/add_product.html', {'data': res})
 
 
+@login_required
 def shop_add_product_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     id = request.POST['cat']
     pname = request.POST['pn']
     pamnt = request.POST['pa']
@@ -477,9 +452,8 @@ def shop_add_product_post(request):
 from django.core.paginator import Paginator
 
 
+@login_required
 def shop_view_product(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     data = Product.objects.filter(
         CATEGORY__SHOP__LOGIN_id=request.session['lid'])  # Assuming Product is your model for products
     paginator = Paginator(data, 3)
@@ -493,25 +467,22 @@ def shop_view_product(request):
     return render(request, 'shop/view_product.html', context)
 
 
+@login_required
 def search_product(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['pn']
     obj = Product.objects.filter(Product_name__icontains=srch)
     return render(request, 'shop/view_product.html', {"data": obj})
 
 
+@login_required
 def shop_edit_product(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Product.objects.get(id=id)
     drop = Category.objects.all()
     return render(request, 'shop/edit_product.html', {"data": obj, "drop": drop})
 
 
+@login_required
 def shop_edit_product_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     id = request.POST['id']
     cid = request.POST['cat']
     obj = Product.objects.get(id=id)
@@ -536,9 +507,8 @@ def shop_edit_product_post(request):
     return HttpResponse("<script>alert('Edited');window.location='/product_finder/shop_view_products/'</script>")
 
 
+@login_required
 def shop_del_product(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Product.objects.get(id=id).delete()
     return HttpResponse("<script>alert('Deleted');window.location='/product_finder/shop_view_products/#id'</script>")
 
@@ -558,16 +528,14 @@ def search_dproduct(request):
     return render(request, 'shop/damaged_product.html', {"data": obj})
 
 
+@login_required
 def shop_add_stock(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Product.objects.filter(CATEGORY__SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/add_stock.html', {"data": obj})
 
 
+@login_required
 def shop_add_stock_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     id = request.POST['pn']
     qnt = int(request.POST['pq'])
 
@@ -585,32 +553,28 @@ def shop_add_stock_post(request):
     return HttpResponse("<script>alert('added');window.location='/product_finder/shop_view_stock/#id'</script>")
 
 
+@login_required
 def shop_view_stock(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Stocks.objects.filter(PRODUCT__CATEGORY__SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/view_stock.html', {"data": obj})
 
 
+@login_required
 def search_stocks(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     srch = request.POST['pn']
     obj = Stocks.objects.filter(PRODUCT__Product_name__icontains=srch)
     return render(request, 'shop/view_stock.html', {"data": obj})
 
 
+@login_required
 def shop_edit_stock(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Stocks.objects.get(id=id)
     obj1 = Product.objects.filter(CATEGORY__SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/edit_stock.html', {"data": obj, "drop": obj1})
 
 
+@login_required
 def shop_edit_stock_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     id = request.POST['id']
     pid = request.POST['pn']
     stk = request.POST['pq']
@@ -622,17 +586,14 @@ def shop_edit_stock_post(request):
     return HttpResponse("<script>alert('Edited');window.location='/product_finder/shop_view_stock/#id'</script>")
 
 
+@login_required
 def shop_del_stock(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Stocks.objects.get(id=id).delete()
     return HttpResponse("<script>alert('Deleted');window.location='/product_finder/shop_view_stock/'</script>")
 
 
+@login_required
 def shop_view_orders(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
-
     obj = Order_sub.objects.filter(PRODUCT__CATEGORY__SHOP__LOGIN_id=request.session['lid'])
 
     for i in obj:
@@ -644,26 +605,22 @@ def shop_view_orders(request):
     return render(request, 'shop/view_orders.html', {"data": obj})
 
 
+@login_required
 def search_orders(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     fd = request.POST['sdate']
     ed = request.POST['edate']
     obj = Order_sub.objects.filter(ORDER_MAIN__request_date__range=[fd, ed])
     return render(request, 'shop/view_orders.html', {"data": obj})
 
 
+@login_required
 def shop_assign_order(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Delivery_boy.objects.filter(status='approved')
     return render(request, 'shop/assign_order.html', {"data": obj, "id": id})
 
 
+@login_required
 def shop_assign_order_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
-
     d_boy = request.POST['db']
     date = datetime.datetime.now().strftime("%Y-%m-%d")
     order = request.POST['id']
@@ -690,18 +647,15 @@ def shop_assign_order_post(request):
         return HttpResponse("<script>alert('Assigned');window.location='/product_finder/shop_view_delivery_status/#id'</script>")
 
 
-
+@login_required
 def shop_view_delivery_boy_status(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     # obj = Assign_order.objects.all()
     obj = Assign_order.objects.filter(ORDER_SUB__PRODUCT__CATEGORY__SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/delivery_boy_status.html', {"data": obj})
 
 
+@login_required
 def search_delivery_status(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     fd = request.POST['sdate']
     ed = request.POST['edate']
     obj = Assign_order.objects.filter(date__range=[fd, ed])
@@ -724,32 +678,28 @@ def search_payment(request):
     return render(request, 'shop/view_payment.html', {"data": obj})
 
 
+@login_required
 def shop_view_rating(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Review.objects.filter(SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/view_rating.html', {"data": obj})
 
 
+@login_required
 def search_rating(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     fd = request.POST['sdate']
     ed = request.POST['edate']
     obj = Review.objects.filter(date__range=[fd, ed])
     return render(request, 'shop/view_rating.html', {"data": obj})
 
 
+@login_required
 def shop_add_offer(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Product.objects.all()
     return render(request, 'shop/add_offer.html', {"data": obj})
 
 
+@login_required
 def shop_add_offer_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     product = request.POST['pr']
     des = request.POST['des']
     sdate = request.POST['sdate']
@@ -764,33 +714,29 @@ def shop_add_offer_post(request):
     return HttpResponse("<script>alert('offer added');window.location='/product_finder/shop_view_offers/#id'</script>")
 
 
+@login_required
 def shop_view_offers(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Offers.objects.filter(PRODUCT__CATEGORY__SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/view_offers.html', {"data": obj})
 
 
+@login_required
 def search_offers(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     fd = request.POST['sdate']
     ed = request.POST['edate']
     obj = Offers.objects.filter(e_date__range=[fd, ed])
     return render(request, 'shop/view_offers.html', {"data": obj})
 
 
+@login_required
 def shop_edit_offers(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Offers.objects.get(id=id)
     obj2 = Product.objects.all()
     return render(request, 'shop/edit_offers.html', {"data": obj, "data2": obj2})
 
 
+@login_required
 def shop_edit_offer_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     product = request.POST['pn']
     des = request.POST['od']
     sdate = request.POST['sd']
@@ -807,31 +753,27 @@ def shop_edit_offer_post(request):
         "<script>alert('edited successfully');window.location='/product_finder/shop_view_offers/'</script>")
 
 
+@login_required
 def shop_del_offer(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Offers.objects.get(id=id).delete()
     return HttpResponse("<script>alert('Deleted');window.location='/product_finder/shop_view_offers/#id'</script>")
 
 
 
 
+@login_required
 def view_dboy(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Delivery_boy.objects.filter(status='approved')
     return render(request, 'shop/view_dboy.html', {"data": obj})
 
 
+@login_required
 def shop_add_notification(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     return render(request, 'shop/add_notification.html', )
 
 
+@login_required
 def shop_add_notification_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     notification = request.POST['not']
 
     obj = Notification()
@@ -843,32 +785,28 @@ def shop_add_notification_post(request):
         "<script>alert('notification send');window.location='/product_finder/shop_view_notification/#id'</script>")
 
 
+@login_required
 def shop_view_notification(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Notification.objects.filter(SHOP__LOGIN_id=request.session['lid'])
     return render(request, 'shop/view_not.html', {"data": obj})
 
 
+@login_required
 def search_notification(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     fd = request.POST['sdate']
     ed = request.POST['edate']
     obj = Notification.objects.filter(date__range=[fd, ed])
     return render(request, 'shop/view_not.html', {"data": obj})
 
 
+@login_required
 def shop_edit_notification(request, id):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     obj = Notification.objects.get(id=id)
     return render(request, 'shop/edit_not.html', {"data": obj})
 
 
+@login_required
 def shop_edit_not_post(request):
-    if request.session['lid'] == '':
-        return redirect('/product_finder/login')
     des = request.POST['not']
     id = request.POST['id']
 
