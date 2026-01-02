@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:product_finder/login/screens/login_screen.dart';
-import 'package:product_finder/view_profile.dart';
-import 'package:product_finder/view_reply.dart';
-import 'package:product_finder/viewcart.dart';
-import 'package:product_finder/viewproduct.dart';
+import 'package:nearbuy/login/screens/login_screen.dart';
+import 'package:nearbuy/view_profile.dart';
+import 'package:nearbuy/view_reply.dart';
+import 'package:nearbuy/viewcart.dart';
+import 'package:nearbuy/viewproduct.dart';
 
 import 'appfeedback.dart';
 import 'changepass.dart';
@@ -91,7 +91,7 @@ class _cus_homeState extends State<cus_home> {
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: NetworkImage('https://pluspng.com/img-png/new-balance-logo-png--2000.png'),
+                      backgroundImage: AssetImage('assets/images/nearlogo.png'),
                       backgroundColor: Colors.transparent, // Optional
                     ),
 

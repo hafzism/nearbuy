@@ -2,10 +2,10 @@
 //
 // import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:product_finder/dsignup.dart';
-// import 'package:product_finder/sample.dart';
-// import 'package:product_finder/sample2.dart';
-// import 'package:product_finder/signup.dart';
+// import 'package:nearbuy/dsignup.dart';
+// import 'package:nearbuy/sample.dart';
+// import 'package:nearbuy/sample2.dart';
+// import 'package:nearbuy/signup.dart';
 //
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;

@@ -1,6 +1,6 @@
 // import 'dart:convert';
 // import 'package:flutter/material.dart';
-// import 'package:product_finder/sample.dart';
+// import 'package:nearbuy/sample.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'complaint.dart';
 // import 'home.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:product_finder/login/screens/login_screen.dart';
+import 'package:nearbuy/login/screens/login_screen.dart';
 
 
 void main() {

@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:product_finder/view_profile.dart';
+import 'package:nearbuy/view_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dview_profile.dart';

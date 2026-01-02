@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'NearBuy',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ip(title: 'Flutter Demo Home Page'),
+      home: const ip(title: 'NearBuy'),
     );
   }
 }
@@ -114,12 +114,10 @@ class _ipState extends State<ip> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.asset('assets/images/nearlogo.png', height: 100),
+            SizedBox(height: 20),
             TextFormField(controller: ipcontroller,
               decoration: InputDecoration(border: OutlineInputBorder(),label: Text('ip')),),
-
-
-
-
             SizedBox(height: 15,),
             ElevatedButton(onPressed: () {senddata();}, child: Text('Enter'))
           ],

@@ -2,7 +2,7 @@
 // import 'package:fluttertoast/fluttertoast.dart';
 //
 // import 'package:http/http.dart' as http;
-// import 'package:product_finder/sample.dart';
+// import 'package:nearbuy/sample.dart';
 // import 'package:razorpay_flutter/razorpay_flutter.dart';
 // import 'dart:convert';
 // import 'package:shared_preferences/shared_preferences.dart';
