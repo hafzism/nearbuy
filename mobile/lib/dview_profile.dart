@@ -56,26 +56,27 @@ class _dboy_vprofileState extends State<dboy_vprofile> {
 
   void vprofile() async {
     SharedPreferences sh = await SharedPreferences.getInstance();
-    String url = sh.getString('url').toString();
-    String lid = sh.getString('lid').toString();
-    String img_url = sh.getString('img_url').toString();
+    String url = sh.getString('url') ?? '';
+    String lid = sh.getString('lid') ?? '';
+    String img_url = sh.getString('img_url') ?? '';
 
     final urls = Uri.parse('$url/dboy_view_profile/');
     try {
       final response = await http.post(urls, body: {"lid": lid});
       if (response.statusCode == 200) {
-        String status = jsonDecode(response.body)['status'];
+        Map<String, dynamic> data = jsonDecode(response.body);
+        String status = data['status'] ?? '';
         if (status == 'ok') {
-          String name1 = jsonDecode(response.body)['name'];
-          String phone1 = jsonDecode(response.body)['phone'];
-          String email1 = jsonDecode(response.body)['email'];
-          String dob1 = jsonDecode(response.body)['dob'];
-          String place1 = jsonDecode(response.body)['place'];
-          String dis1 = jsonDecode(response.body)['dis'];
-          String state1 = jsonDecode(response.body)['state'];
-          String pin1 = jsonDecode(response.body)['pin'];
-          String photo = img_url + jsonDecode(response.body)['photo'];
-          String photo1 = img_url + jsonDecode(response.body)['photo1'];
+          String name1 = data['name']?.toString() ?? '';
+          String phone1 = data['phone']?.toString() ?? '';
+          String email1 = data['email']?.toString() ?? '';
+          String dob1 = data['dob']?.toString() ?? '';
+          String place1 = data['place']?.toString() ?? '';
+          String dis1 = data['dis']?.toString() ?? '';
+          String state1 = data['state']?.toString() ?? '';
+          String pin1 = data['pin']?.toString() ?? '';
+          String photo = img_url + (data['photo']?.toString() ?? '');
+          String photo1 = img_url + (data['photo1']?.toString() ?? '');
 
           setState(() {
             Name = name1;

@@ -242,9 +242,9 @@ class _ViewcartState extends State<Viewcart> {
               onPressed: () async {
 
                 SharedPreferences sh = await SharedPreferences.getInstance();
-                String url = sh.getString('url').toString();
-                String lid = sh.getString('lid').toString();
-                String selmid = sh.getString('selmid').toString();
+                String url = sh.getString('url') ?? '';
+                String lid = sh.getString('lid') ?? '';
+                String selmid = sh.getString('selmid') ?? '';
 
                 final urls = Uri.parse('$url/user_addto_cart/');
                 try {
@@ -258,7 +258,8 @@ class _ViewcartState extends State<Viewcart> {
 
                   });
                   if (response.statusCode == 200) {
-                    String status = jsonDecode(response.body)['status'];
+                    Map<String, dynamic> data = jsonDecode(response.body);
+                    String status = data['status'] ?? '';
 
                     if (status == 'ok') {
 
@@ -441,7 +442,7 @@ class _ViewcartState extends State<Viewcart> {
                                   onPressed: () async {
                                     try {
                                       SharedPreferences sh = await SharedPreferences.getInstance();
-                                      String urls = sh.getString('url').toString();
+                                      String urls = sh.getString('url') ?? '';
 
                                       String url = '$urls/deletefromcart/';
 

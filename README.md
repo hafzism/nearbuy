@@ -1,77 +1,66 @@
-# Nearbuy - find products from nearby shops
+# NearBuy - Professional Product Discovery Platform
 
-A comprehensive solution for local shopping, connecting Customers, Shops, and Delivery Boys.
+**NearBuy** is a platform designed to connect customers with local stores. It allows users to browse products from nearby shops, find their exact locations, and request deliveries.
 
-## 🏗 Technology Stack
-- **Backend**: Django 3.2 (Python 3.12 compatible)
-- **Database**: SQLite (Pre-configured for local dev) / MySQL (Production ready)
-- **Mobile**: Flutter 3.19 (Android/iOS)
-- **Architecture**: Monorepo with REST-like APIs.
+> [!NOTE]
+> This project was developed as part of a **BCA (Bachelor of Computer Applications)** college project.
 
 ---
 
-## 🚀 Quickstart (Local Backend)
+## 🌐 Live Demo & App Download
 
-The backend is configured to use **SQLite** by default. You do **NOT** need to install MySQL to run the project locally.
+You can experience the platform live without any local setup:
+
+- **Live URL**: [https://nearbuy-project.onrender.com/product_finder/login/](https://nearbuy-project.onrender.com/product_finder/login/)
+- **Mobile App**: You can download the Android APK directly from the homepage of the live link (look for the "Download App" button in the navbar).
+
+### 🔑 Default Credentials (for testing)
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | `123` |
+| **Shop** | `shop` | `123` |
+
+---
+
+## 🏗 Technology Stack
+- **Backend**: Django 4.2 (Python 3.11)
+- **Database**: SQLite (Local) / MySQL (Production)
+- **Mobile**: Flutter 3.19 (Android/iOS)
+- **Hosting**: Render.com
+
+---
+
+## 🚀 Local Development Setup
+
+The backend is configured to use **SQLite** by default for easy local testing.
 
 ### 1. Setup Backend
-Open your terminal in the project root:
-
 ```bash
-# 1. Create access to required tools
 cd nearbuy
-# Standard python setup
 python3 -m venv backend/venv
 source backend/venv/bin/activate
-
-# 2. Install Dependencies
 pip install -r backend/requirements.txt
-
-# 3. Apply Database Migrations (Creates db.sqlite3)
 python backend/manage.py migrate
-# (Optional) Create superuser for Admin access
-python backend/manage.py createsuperuser
-
-# 4. Start the Server
+python backend/manage.py init_users  # Creates demo shop and admin
 python backend/manage.py runserver
 ```
-
-**Access the Portals:**
-- **Admin Panel**: [http://127.0.0.1:8000/product_finder/login/](http://127.0.0.1:8000/product_finder/login/)
-    - **Default Credentials**: `admin` / `123` (Auto-created on startup)
-- **Shop Login**: [http://127.0.0.1:8000/product_finder/login/](http://127.0.0.1:8000/product_finder/login/)
-    - **Default Credentials**: `shop` / `123` (Auto-created on startup)
-- **Shop Registration**: [http://127.0.0.1:8000/product_finder/shop_register/](http://127.0.0.1:8000/product_finder/shop_register/)
-    - *Note*: Use the registration link to create a new Shop account.
 
 ---
 
 ## 📱 Mobile App (Flutter)
 
-To build the mobile app, you need the Flutter SDK.
-
-### 1. Automatic Setup
-We have provided a script to download and configure Flutter for you.
-
-```bash
-# From project root
-./install_dependencies.sh
-source setup_env.sh
-```
-
-### 2. Build & Run
-```bash
-cd nearbuy/mobile
-flutter pub get
-flutter run
-```
+1.  **Configure URL**: Update `nearbuy/mobile/lib/ip.dart` with your server IP or Render URL.
+2.  **Run**:
+    ```bash
+    cd nearbuy/mobile
+    flutter pub get
+    flutter run
+    ```
 
 ---
 
-## 📦 Deployment & Hosting
-
-For detailed instructions on how to host this project on **Render.com** (Backend) and distribute the App, mostly for free, please read:
-
+## 📦 Deployment
+For detailed instructions on hosting this project on **Render.com**, please read:
 👉 **[DEPLOYMENT_MASTERCLASS.md](DEPLOYMENT_MASTERCLASS.md)**
 
 ---
@@ -80,3 +69,4 @@ For detailed instructions on how to host this project on **Render.com** (Backend
 - `nearbuy/backend`: Django Project Source
 - `nearbuy/mobile`: Flutter App Source
 - `nearbuy/docs`: Database Diagrams and Project Docs
+
