@@ -3,7 +3,7 @@
 **NearBuy** is a platform designed to connect customers with local stores. It allows users to browse products from nearby shops, find their exact locations, and request deliveries.
 
 > [!NOTE]
-> This project was developed as part of a **BCA (Bachelor of Computer Applications)** college project.
+> This project was developed as part of a **BCA (Bachelor of Computer Applications)** college project, with help of some project centers.
 
 ---
 
