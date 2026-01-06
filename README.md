@@ -12,7 +12,7 @@
 You can experience the platform live without any local setup:
 
 - **Live URL**: [https://nearbuy-project.onrender.com/product_finder/login/](https://nearbuy-project.onrender.com/product_finder/login/)
-- **Mobile App**: You can download the Android APK directly from the homepage of the live link (look for the "Download App" button in the navbar).
+- **Mobile App**: You can download the Android APK directly from the homepage of the live link (look for the "Download App" button in the navbar after login).
 
 ### 🔑 Default Credentials (for testing)
 | Role | Username | Password |
